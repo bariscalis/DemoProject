@@ -1,0 +1,42 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2021-01-18T22:41:47.147Z",
+        "line": 2,
+        "name": "Test main page",
+        "description": "",
+        "id": "test-main-page-functionality;test-main-page",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 10992000000,
+              "status": "passed"
+            },
+            "line": 3,
+            "name": "user go to main page \"https://www.amazon.de/\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"https://www.amazon.de/\"",
+                  "offset": 21
+                }
+              ],
+              "location": "stepdefinitions.MainPage_StepDefinitions.user_go_to_main_page(java.lang.String)"
+            },
+            "keyword": "Given "
+          }
+        ]
+      }
+    ],
+    "name": "Test main page functionality",
+    "description": "",
+    "id": "test-main-page-functionality",
+    "keyword": "Feature",
+    "uri": "file:src/test/resources/features/MainPage.feature",
+    "tags": []
+  }
+]
