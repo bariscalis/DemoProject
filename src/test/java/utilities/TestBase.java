@@ -16,7 +16,8 @@ public class TestBase {
 
     @Before
     public void setSpec02(){
-        spec02 = new RequestSpecBuilder().setBaseUri("https://restcountries.eu/rest/v2/all").build();
+        //spec02 = new RequestSpecBuilder().setBaseUri("https://restcountries.eu/rest/v2/all").build();
+        spec02 = new RequestSpecBuilder().setBaseUri("https://restcountries.com/v2/all").build();
     }
 
     @Before

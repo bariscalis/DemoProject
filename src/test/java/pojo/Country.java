@@ -28,7 +28,7 @@ public class Country {
     private List<Currency> currencies = null;
     private List<Language> languages = null;
     private Translations translations;
-    private String flag;
+    private Object flag;
     private List<RegionalBloc> regionalBlocs = null;
     private String cioc;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -306,11 +306,11 @@ public class Country {
         return this;
     }
 
-    public String getFlag() {
+    public Object getFlag() {
         return flag;
     }
 
-    public void setFlag(String flag) {
+    public void setFlag(Object flag) {
         this.flag = flag;
     }
 

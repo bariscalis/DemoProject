@@ -1,10 +1,12 @@
 package api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.testng.asserts.SoftAssert;
 import pojo.Country;
 import utilities.TestBase;
 
@@ -35,10 +37,10 @@ public class CountryApiViaPojo extends TestBase {
     @Test
     public void testCountry() throws IOException {
         //Expected Data
-        Map<String, String> expectedHeader = new HashMap<>();
-        expectedHeader.put("Server","cloudflare");
-        expectedHeader.put( "CF-Cache-Status", "DYNAMIC");
-        expectedHeader.put("Connection", "keep-alive");
+        Map<String, String> expectedData = new HashMap<>();
+        expectedData.put("OneOfSwedishLanguageCountry","Finland");
+        expectedData.put( "OneOfCountryPopulationBiggerThen50M", "Japan");
+        expectedData.put("OneOfSubRegion", "South-Eastern Asia");
 
         // Send Request
         response =  given()
@@ -73,7 +75,9 @@ public class CountryApiViaPojo extends TestBase {
         int hasMaxPopulationCountryPopulation = response.path("max{it.population}.population");
         String hasMaxPopulationCountryCapital = response.path("max{it.population}.capital");
 */
+
         ObjectMapper actualData = new ObjectMapper();
+        actualData.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         country = actualData.readValue(response.asString(), Country[].class);
 
         List<String> swedishLanguageCountry = Arrays.stream(country)
@@ -81,14 +85,21 @@ public class CountryApiViaPojo extends TestBase {
                                             .map(Country::getName)
                                             .collect(Collectors.toList());
 
-        List<String> populationGraterThen300B = Arrays.stream(country)
+        List<String> populationGraterThen50M = Arrays.stream(country)
                                                 .filter(i-> i.getPopulation()>50000000)
                                                 .map(Country::getName)
                                                 .collect(Collectors.toList());
 
         List<String> subregionUnique = Arrays.stream(country).map(Country::getSubregion).distinct().collect(Collectors.toList());
 
-        System.out.println(subregionUnique);
+        //System.out.println(subregionUnique);
+
+        //Soft Assertion
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(swedishLanguageCountry.contains(expectedData.get("OneOfSwedishLanguageCountry")));
+        softAssert.assertTrue(populationGraterThen50M.contains(expectedData.get("OneOfCountryPopulationBiggerThen50M")));
+        softAssert.assertTrue(subregionUnique.contains(expectedData.get("OneOfSubRegion")));
+        softAssert.assertAll();
     }
 
 }
